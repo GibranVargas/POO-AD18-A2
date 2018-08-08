@@ -1,0 +1,374 @@
+#include "stdio.h"
+#include "stdafx.h"
+#include "stdlib.h"
+#include "process.h"
+
+//estructuras
+struct Matriz1
+{
+	int M1[20][20];
+	int nn, mm;
+};
+
+struct Matriz1 Asig1(int M1[20][20], int n, int m)
+{
+	struct Matriz1 Ma1;
+	int i, j;
+
+	Ma1.nn = n;
+	Ma1.mm = m;
+	for (i = 0; i < Ma1.nn; i++)
+	{
+		for (j = 0; j < Ma1.mm; j++)
+		{
+			Ma1.M1[i][j] = M1[i][j];
+		}
+	}
+	return Ma1;
+}
+
+struct Matriz2
+{
+	int M2[20][20];
+	int nn, mm;
+};
+
+struct Matriz2 Asig2(int M2[20][20], int n2, int m2)
+{
+	struct Matriz2 Ma2;
+	int i, j;
+
+	Ma2.nn = n2;
+	Ma2.mm = m2;
+	for (i = 0; i < Ma2.nn; i++)
+	{
+		for (j = 0; j < Ma2.mm; j++)
+		{
+			Ma2.M2[i][j] = M2[i][j];
+		}
+	}
+	return Ma2;
+}
+
+//prototipos de funciones
+void Suma(struct Matriz1 Ma1, struct Matriz2 Ma2);
+void Resta(struct Matriz1 Ma1, struct Matriz2 Ma2);
+void Mult(struct Matriz1 Ma1, struct Matriz2 Ma2);
+int Res();
+
+int main()
+{
+	int op;
+	int n, m, x, y, z, m2, n2;
+	int M1[20][20];
+	int M2[20][20];
+
+	MENU:
+	struct Matriz1 uno;
+	struct Matriz2 dos;
+	system("CLS");
+	printf("\n\n\n\t\t\t Operaciones de matrices ");
+	printf("\n\n\t\t\t MENU ");
+	printf("\n\n\n\t\t 1.- Suma");
+	printf("\n\t\t 2.- Resta");
+	printf("\n\t\t 3.- Multiplicacion");
+	printf("\n\t\t 4.- Salir");
+	printf("\n\n\t\t Seleccione una opcion: ");
+
+	scanf_s("%d", &op);
+
+	switch (op)
+	{
+		case 1: //SUMA
+		{
+		//Pedir dimencion de las matrices
+		printf("\n\n\t\t\t Dimencion de tus matrices:\n\t\t\t\t");
+		scanf_s("%d", &n);
+		n2 = n;
+		printf("\t\t\t\tx\n\t\t\t\t");
+		scanf_s("%d", &m);
+		m2 = m;
+		system("CLS");
+
+		//Asignar valores a las matrices
+		for (z = 1; z <= 2; z++)
+		{
+			for (x = 0; x < n; x++)
+			{
+				for (y = 0; y < m; y++)
+				{
+					printf("\n\n\t\t\t Ingrese el valor de la posicion (%d,%d) de la matriz %d: ", x + 1, y + 1, z);
+					if (z == 1)
+					{
+						scanf_s("%d", &M1[x][y]);
+					}
+					else
+					{
+						scanf_s("%d", &M2[x][y]);
+					}
+				}
+			}
+		}
+		uno = Asig1(M1, n, m);
+		dos = Asig2(M2, n2, m2);
+
+		//Suma
+		Suma(uno, dos);
+
+		//Preguntar si quiere hacer otra operacion o salir
+		if (Res() == 1)
+		{
+			goto MENU;
+		}
+		else
+		{
+			printf("\n\n\t\t\t Adios \n\n\t\t\t");
+			break;
+		}
+	}
+
+		case 2://RESTA
+		{
+		//Dimencion de matrices
+		printf("\n\n\t\t\t Dimencion de tus matrices:\n\t\t\t\t");
+		scanf_s("%d", &n);
+		n2 = n;
+		printf("\t\t\t\tx\n\t\t\t\t");
+		scanf_s("%d", &m);
+		m2 = m;
+		system("CLS");
+
+		//Asignar valores a las matrices
+		for (z = 1; z <= 2; z++)
+		{
+			for (x = 0; x < n; x++)
+			{
+				for (y = 0; y < m; y++)
+				{
+					printf("\n\n\t\t\t Ingrese el valor de la posicion (%d,%d) de la matriz %d: ", x + 1, y + 1, z);
+					if (z == 1)
+					{
+						scanf_s("%d", &M1[x][y]);
+					}
+					else
+					{
+						scanf_s("%d", &M2[x][y]);
+					}
+				}
+			}
+		}
+		uno = Asig1(M1, n, m);
+		dos = Asig2(M2, n2, m2);
+
+		//Resta de las matrices
+		Resta(uno, dos);
+
+
+		//Preguntar si quiere hacer otra operacion o salir
+		if (Res() == 1)
+		{
+			goto MENU;
+		}
+		else
+		{
+			printf("\n\n\t\t\t Adios \n\n\t\t\t");
+			break;
+		}
+	}
+
+		case 3://multiplicacion
+		{
+		MU:
+			//Tamaño de las matrices
+			printf("\n\n\t\t\t Dimencion de tu matriz 1\n\t\t\t ");
+			scanf_s("%d", &n);
+			printf("\t\t\t x\n\t\t\t ");
+			scanf_s("%d", &m);
+			printf("\n\t\t\t Dimencion de tu matriz 2\n\t\t\t ");
+			scanf_s("%d", &n2);
+			printf("\t\t\t x\n\t\t\t ");
+			scanf_s("%d", &m2);
+
+			if (m == n2)
+			{
+				//Asignar valores a las matrices
+				system("CLS");
+	
+				//Matriz 1
+				for (x = 0; x < n; x++)
+				{
+					for (y = 0; y < m; y++)
+					{
+						printf("\n\n\t\t\t Ingrese el valor de la posicion (%d,%d) de la matriz 1: ", x + 1, y + 1);
+						scanf_s("%d", &M1[x][y]);
+					}
+				}
+				uno = Asig1(M1, n, m);
+	
+				//Matriz 2
+				for (x = 0; x < n2; x++)
+				{
+					for (y = 0; y < m2; y++)
+					{
+						printf("\n\n\t\t\t Ingrese el valor de la posicion (%d,%d) de la matriz 2: ", x + 1, y + 1);
+						scanf_s("%d", &M2[x][y]);
+					}
+				}
+				dos = Asig2(M2, n2, m2);
+
+				//operacion
+				Mult(uno, dos);
+
+				//Preguntar si quiere hacer otra operacion o salir
+				if (Res() == 1)
+				{
+					goto MENU;
+				}
+				else
+				{
+					printf("\n\n\t\t\t Adios \n\n\t\t\t");
+					break;
+				}
+			}
+			else
+				{
+				system("CLS");
+				printf("\n\n\t\t\t Las dimenciones de las matrices (%d x %d) y (%d x %d) no son validos, deben coincidir\n\t\t las columnas de la matriz 1 con los renglones de la matriz 2.", n, m, n2, m2);
+				printf("\n\t\t\t Ingrese los valores correctos");
+				goto MU;
+			}
+		}	
+
+		case 4://Salir
+		{
+			printf("\n\n\t\t\t Adios \n\n\t\t\t");
+			break;
+		}
+
+		default://opcion no valida
+		{
+			printf("\n\t\t\t Valor no valido, selecione una de las opciones existentes.\n\n\t\t\t");
+			system("pause");
+			goto MENU;
+		}
+	}
+
+	system("pause");
+	return 0;
+}
+
+//funciones
+void Suma(struct Matriz1 Ma1, struct Matriz2 Ma2)
+{
+	int i, j, SUMA[20][20];
+	for (i = 0; i < Ma1.nn; i++)
+	{
+		for (j = 0; j < Ma1.mm; j++)
+		{
+			SUMA[i][j] = Ma1.M1[i][j] + Ma2.M2[i][j];
+		}
+	}
+	//Imprimir resultado de suma
+	system("CLS");
+	printf("\n\n\t\t\t El resultado de sus matrices es: \n\n\t\t");
+	for (i = 0; i < Ma1.nn; i++)
+	{
+		for (j = 0; j < Ma1.mm; j++)
+		{
+			if (j == 0)
+			{
+				printf("|");
+			}
+			printf(" %d ", SUMA[i][j]);
+			if (j == Ma1.mm - 1)
+			{
+				printf("|");
+			}
+			if (j + 1 == Ma1.mm)
+			{
+				printf("\n\t\t");
+			}
+		}
+	}
+}
+
+void Resta(struct Matriz1 Ma1, struct Matriz2 Ma2)
+{
+	int i, j, RESTA[20][20];
+	for (i = 0; i < Ma1.nn; i++)
+	{
+		for (j = 0; j < Ma1.mm; j++)
+		{
+			RESTA[i][j] = Ma1.M1[i][j] - Ma2.M2[i][j];
+		}
+	}
+	//Imprimir resultado de resta
+	system("CLS");
+	printf("\n\n\t\t\t El resultado de sus matrices es: \n\n\t\t");
+	for (i = 0; i < Ma1.nn; i++)
+	{
+		for (j = 0; j < Ma1.mm; j++)
+		{
+			if (j == 0)
+			{
+				printf("|");
+			}
+			printf(" %d ", RESTA[i][j]);
+			if (j == Ma1.mm - 1)
+			{
+				printf("|");
+			}
+			if (j + 1 == Ma1.mm)
+			{
+				printf("\n\t\t");
+			}
+		}
+	}
+}
+
+void Mult(struct Matriz1 Ma1, struct Matriz2 Ma2)
+{
+	int i, j, k, MULT[20][20];
+	for (i = 0; i < Ma1.nn; i++)
+	{
+		for (j = 0; j < Ma2.mm; j++)
+		{
+			MULT[i][j] = 0;
+			for (k = 0; k < Ma1.mm; k++)
+			{
+				MULT[i][j] += Ma1.M1[i][k] * Ma2.M2[k][j];
+			}
+		}
+	}
+
+	//imprimir resultados de multiplicacion
+	system("CLS");
+	printf("\n\n\t\t\t El resultado de sus matrices es: \n\n\t\t");
+	for (i = 0; i < Ma1.nn; i++)
+	{
+		for (j = 0; j < Ma2.mm; j++)
+		{
+			if (j == 0)
+			{
+				printf("|");
+			}
+			printf(" %d ", MULT[i][j]);
+			if (j == Ma2.mm - 1)
+			{
+				printf("|");
+			}
+			if (j + 1 == Ma2.mm)
+			{
+				printf("\n\t\t");
+			}
+		}
+	}
+}
+
+int Res()
+{
+	int R;
+	printf("\n\n\t\t\t Desea realizar otra operacion? (1.- Si, 2.- No): ");
+	scanf_s("%d", &R);
+	return R;
+}
